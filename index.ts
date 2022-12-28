@@ -124,7 +124,7 @@ function fill(t: number) {
 fill(0);
 
 const doRoll = (t: number) => {
-  fill(t / 1000);
+  fill(t / 500);
   requestAnimationFrame(doRoll);
 };
 
