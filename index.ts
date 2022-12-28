@@ -134,6 +134,7 @@ const noise = (x: number, y: number, z: number) => {
 const scale = 50;
 
 function fill(t: number) {
+  const d= ctx.createImageData(width, height);
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       const x = i / scale;
@@ -141,18 +142,24 @@ function fill(t: number) {
 
       const value = (noise(x, y, t) + 0.5) * 256;
       // console.log(value);
-      ctx.fillStyle = `rgb(${value},${value},${value})`;
-      ctx.fillRect(i, j, 1, 1);
+      const idx = (j * width + i) * 4;
+      d.data[idx] = value;
+      d.data[idx + 1] = value;
+      d.data[idx + 2] = value;
+      d.data[idx + 3] = 255;
+
+      // ctx.fillStyle = `rgb(${value},${value},${value})`;
     }
     // break;
   }
+  ctx.putImageData(d, 0, 0);
 }
 
 fill(0);
 
 function fillGradual(time: number) {
   fill(time);
-  setTimeout(() => fillGradual(time + 0.01), 10);
+  setTimeout(() => fillGradual(time + 0.01), 1);
 }
 
-fillGradual(1)
+fillGradual(1);
