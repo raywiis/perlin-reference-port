@@ -130,3 +130,29 @@ const noise = (x: number, y: number, z: number) => {
     )
   );
 };
+
+const scale = 50;
+
+function fill(t: number) {
+  for (let i = 0; i < width; i++) {
+    for (let j = 0; j < height; j++) {
+      const x = i / scale;
+      const y = j / scale;
+
+      const value = (noise(x, y, t) + 0.5) * 256;
+      // console.log(value);
+      ctx.fillStyle = `rgb(${value},${value},${value})`;
+      ctx.fillRect(i, j, 1, 1);
+    }
+    // break;
+  }
+}
+
+fill(0);
+
+function fillGradual(time: number) {
+  fill(time);
+  setTimeout(() => fillGradual(time + 0.01), 10);
+}
+
+fillGradual(1)
